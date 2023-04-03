@@ -35,7 +35,7 @@ public class MultipartService {
   public void uploadDirFile(List<MultipartFile> multipartFiles, List<String> filename) throws IOException {
     for (MultipartFile multipartFile : multipartFiles) {
       String fileType = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().indexOf("."));
-      Path path = Paths.get(fileDir + filename.get(0) + fileType);
+      Path path = Paths.get(fileDir + filename.get(multipartFiles.indexOf(multipartFile)) + fileType);
 
       log.info("==== Multopart Start ====");
       log.info("multipartFile.getName={}", multipartFile.getName());
