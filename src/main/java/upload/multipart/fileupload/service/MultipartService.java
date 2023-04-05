@@ -34,7 +34,7 @@ public class MultipartService {
 
   public void uploadDirFile(List<MultipartFile> multipartFiles, List<String> filename) throws IOException {
     for (MultipartFile multipartFile : multipartFiles) {
-      String fileType = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().indexOf("."));
+      String fileType = getFileType(multipartFile);
       Path path = Paths.get(fileDir + filename.get(multipartFiles.indexOf(multipartFile)) + fileType);
 
       log.info("==== Multopart Start ====");
@@ -44,8 +44,13 @@ public class MultipartService {
       log.info("multipartFile.getResource={}", multipartFile.getResource());
 
 
-      Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//      Files.copy(multipartFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+      multipartFile.transferTo(path);
     }
+  }
+
+  public String getFileType(MultipartFile multipartFile) {
+    return multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().indexOf("."));
   }
 
 }
